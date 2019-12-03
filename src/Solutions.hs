@@ -10,6 +10,8 @@ solve1 = do
     Just massValues -> return $ massTofuel massValues
     Nothing -> error "Invalid input"
     where parse c = traverse (readMaybe :: String -> Maybe Integer) (lines c)
-          massTofuel m = sumAll $ map convertToFuel m
+          massTofuel m = sumAll $ map calculateFuel m
           sumAll fuelValues = foldr (+) 0 fuelValues
-          convertToFuel m = div m 3 - 2
+          calculateFuel m | m <= 6 = 0
+                          | otherwise = fuel + calculateFuel fuel
+                          where fuel = div m 3 - 2
